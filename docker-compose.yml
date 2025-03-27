@@ -503,6 +503,31 @@ services:
       - iotronic-ui_logs:/var/log/apache2
       - ./conf_ui:/etc/openstack-dashboard
 
+  lightning-rod:
+    image: lucadagati/lrod:compose
+    container_name: lightning-rod
+    restart: unless-stopped
+    privileged: true
+    networks:
+      - s4t
+    ports:
+      - "1474:1474"
+    volumes:
+      - lr_var:/var/lib/iotronic
+      - lr_le:/etc/letsencrypt/
+      - lr_nginx:/etc/nginx
+      - lr_confs:/etc/iotronic/
+    stdin_open: true
+    tty: true
+    entrypoint: ["/bin/sh", "-c"]
+#    command: ["ls /etc/nginx; startLR"]
+    command:
+      - /bin/sh
+      - -c
+      - |
+        sed -i 's|self\.wstun_ip *= *urlparse(board\.wamp_config\["url"\])\[1\]\.split('\'':'\'')\[0\]|self.wstun_ip = "iotronic-wstun"|' /usr/local/lib/python3*/site-packages/iotronic_lightningrod/modules/service_manager.py && \
+        exec startLR
+        
 networks:
   s4t:
     driver: bridge
@@ -517,4 +542,8 @@ volumes:
   iotronic_ssl:
   unime_iotronic_db_data:
   rabbitmq_data:
+  lr_var:
+  lr_le:
+  lr_nginx:
+  lr_confs:
 
