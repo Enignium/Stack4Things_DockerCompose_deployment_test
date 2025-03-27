@@ -519,15 +519,10 @@ services:
       - lr_confs:/etc/iotronic/
     stdin_open: true
     tty: true
-    entrypoint: ["/bin/sh", "-c"]
-#    command: ["ls /etc/nginx; startLR"]
-    command:
-      - /bin/sh
-      - -c
-      - |
-        sed -i 's|self\.wstun_ip *= *urlparse(board\.wamp_config\["url"\])\[1\]\.split('\'':'\'')\[0\]|self.wstun_ip = "iotronic-wstun"|' /usr/local/lib/python3*/site-packages/iotronic_lightningrod/modules/service_manager.py && \
-        exec startLR
-        
+    entrypoint: /bin/sh
+    command: >
+      -c "sed -i \"s|self\\.wstun_ip *= .*|self.wstun_ip = \\\"iotronic-wstun\\\"|\" /usr/local/lib/python3*/site-packages/iotronic_lightningrod/modules/service_manager.py && exec startLR"
+
 networks:
   s4t:
     driver: bridge
