@@ -110,9 +110,13 @@ http://0.0.0.0/horizon
 ### 2. Access the Lightning-Rod Web Interface
 
 Open your browser and navigate to:
+
 ```bash
 http://<your-docker-host-ip>:1474
 ```
+Log in with the default credentials:
+- **Username**: `me`
+- **Password**: `arancino`
 
 This opens the Lightning-Rod container’s internal configuration interface.
 
@@ -125,7 +129,7 @@ This opens the Lightning-Rod container’s internal configuration interface.
 In the Lightning-Rod interface:
 
 - Set the **Crossbar URL** to:
-- 
+ 
 ```bash
 wss://crossbar:8181
 ```
