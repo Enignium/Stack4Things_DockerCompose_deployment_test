@@ -103,7 +103,7 @@ http://0.0.0.0/horizon
 
 5. After registration, **copy the board code**. You’ll need it to complete the Lightning-Rod configuration.
 
-(images/1.png)
+![](images/1.png)
 
 ---
 
@@ -147,7 +147,7 @@ Back in the Lightning-Rod browser interface:
 
 Once submitted, the board will connect to the Crossbar WAMP router and register with the IoTronic Conductor.
 
-(images/2.png)
+![](images/2.png)
 ---
 
 ## ✅ Board Onboarding Complete
@@ -158,8 +158,8 @@ The virtualized board is now fully integrated with Stack4Things:
 - You can interact with it via the UI.
 - Plugins and services can be deployed remotely.
 
-(images/3.png)
-(images/4.png)
+![](images/3.png)
+![](images/4.png)
 ---
 
 
