@@ -272,7 +272,7 @@ Appending the `-v` flag will also delete any named volumes (e.g., for the databa
 
 ## Further Reading
 
-- [Stack4Things Official Website](https://stack4things.unime.it)  
+- [Stack4Things Official Repo](https://opendev.org/x/iotronic)  
 - [Docker Documentation](https://docs.docker.com)  
 - [Docker Compose Docs](https://docs.docker.com/compose)  
 - [OpenStack Documentation](https://docs.openstack.org)
