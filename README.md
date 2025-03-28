@@ -91,7 +91,7 @@ This guide explains how to connect a **virtualized Lightning-Rod board**, runnin
 ```bash
 http://0.0.0.0/horizon
 ```
-(Replace `0.0.0.0` with your Docker host IP if needed)
+(Replace `0.0.0.0` with iotronic-ui Docker host IP if needed)
 
 2. Log in with the default credentials:
 - **Username**: `admin`
@@ -99,7 +99,7 @@ http://0.0.0.0/horizon
 
 3. Navigate to the **IoT** section in the Horizon sidebar.
 
-4. Click on **“Add New Board”** and provide the required board information.
+4. Click on **“Create Board”** and provide the required board information.
 
 5. After registration, **copy the board code**. You’ll need it to complete the Lightning-Rod configuration.
 
@@ -112,8 +112,10 @@ http://0.0.0.0/horizon
 Open your browser and navigate to:
 
 ```bash
-http://<your-docker-host-ip>:1474
+http://0.0.0.0:1474
 ```
+(Replace 0.0.0.0 with lightning-rod Docker host IP if needed)
+
 Log in with the default credentials:
 - **Username**: `me`
 - **Password**: `arancino`
