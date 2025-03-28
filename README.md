@@ -67,6 +67,98 @@ to bring the entire stack up in the background.
 
 ---
 
+# Connecting a Virtualized IoT Board to Stack4Things
+
+This guide explains how to connect a **virtualized Lightning-Rod board**, running as a Docker container, to the **Stack4Things (S4T)** platform using the provided `docker-compose.yml` environment.
+
+---
+
+##  Overview
+
+- The **Lightning-Rod** container simulates an IoT board.
+- The **Crossbar** container acts as the WAMP router.
+- The **Stack4Things UI** (`iotronic-ui`) allows registering and managing boards.
+- All containers are part of the same Docker network (`s4t`).
+
+---
+
+##  Step-by-Step Setup
+
+### 1. Register the Virtual Board in Stack4Things UI
+
+1. Open the **Stack4Things dashboard** in your browser:
+
+```bash
+http://0.0.0.0/horizon
+```
+(Replace `0.0.0.0` with your Docker host IP if needed)
+
+2. Log in with the default credentials:
+- **Username**: `admin`
+- **Password**: `s4t`
+
+3. Navigate to the **IoT** section in the Horizon sidebar.
+
+4. Click on **“Add New Board”** and provide the required board information.
+
+5. After registration, **copy the board code**. You’ll need it to complete the Lightning-Rod configuration.
+
+(images/1.png)
+
+---
+
+### 2. Access the Lightning-Rod Web Interface
+
+Open your browser and navigate to:
+```bash
+http://<your-docker-host-ip>:1474
+```
+
+This opens the Lightning-Rod container’s internal configuration interface.
+
+>  Ensure the Lightning-Rod container exposes port `1474` in your `docker-compose.yml`.
+
+---
+
+### 3. Configure the Crossbar Endpoint
+
+In the Lightning-Rod interface:
+
+- Set the **Crossbar URL** to:
+- 
+```bash
+wss://crossbar:8181
+```
+This address works because both containers share the same Docker network (`s4t`), allowing hostname resolution by container name.
+
+---
+
+
+### 4. Finalize the Lightning-Rod Configuration
+
+Back in the Lightning-Rod browser interface:
+
+- Paste the **board code** from the dashboard registration.
+- Submit the form to finalize the connection.
+
+Once submitted, the board will connect to the Crossbar WAMP router and register with the IoTronic Conductor.
+
+(images/2.png)
+---
+
+## ✅ Board Onboarding Complete
+
+The virtualized board is now fully integrated with Stack4Things:
+
+- It is visible in the IoTronic dashboard.
+- You can interact with it via the UI.
+- Plugins and services can be deployed remotely.
+
+(images/3.png)
+(images/4.png)
+---
+
+
 ## Services Description
 
 ### CA Service
