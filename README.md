@@ -370,9 +370,12 @@ Appending the `-v` flag will also delete any named volumes (e.g., for the databa
 
 ## Further Reading
 
-- [Stack4Things Official Repo](https://opendev.org/x/iotronic)  
-- [Docker Documentation](https://docs.docker.com)  
-- [Docker Compose Docs](https://docs.docker.com/compose)  
+- [Iotronic (S4T Cloud-Side) Official Repo](https://opendev.org/x/iotronic)
+- [Lightning-Rod (S4T Device-Side) Official Repo](https://opendev.org/x/iotronic-lightning-rod)
+- [Iotronic-UI (S4T Dashboard) Official Repo](https://opendev.org/x/iotronic-ui)
+- [Iotronic-Client (S4T CLI) Official Repo](https://opendev.org/x/python-iotronicclient)
+- [Docker Documentation](https://docs.docker.com)
+- [Docker Compose Docs](https://docs.docker.com/compose)
 - [OpenStack Documentation](https://docs.openstack.org)
 
 ---
