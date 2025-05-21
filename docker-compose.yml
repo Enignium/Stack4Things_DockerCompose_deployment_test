@@ -391,7 +391,6 @@ services:
 
   iotronic-conductor:
     image: lucadagati/iotronic-conductor:latest
-    hostname: conductor-main
     container_name: iotronic-conductor
     restart: unless-stopped
     depends_on:
