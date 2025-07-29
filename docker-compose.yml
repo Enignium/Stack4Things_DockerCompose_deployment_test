@@ -390,7 +390,7 @@ services:
       exec tail -f /dev/null"
 
   iotronic-conductor:
-    image: salvospinella3-iotronic-conductor
+    image: salvospina/iotronic-conductor
     container_name: iotronic-conductor
     restart: unless-stopped
     depends_on:
@@ -441,7 +441,7 @@ services:
         done;
         #cd /opt/build/iotronic/iotronic/db/sqlalchemy;
         #alembic -c alembic.ini upgrade head;
-        iotronic-dbsync create_schema;
+        iotronic-dbsync;
         echo '[INFO] Configurazione dei permessi sui log...';
         chown -R iotronic:iotronic /var/log/iotronic;
         echo '[INFO] Avvio di Iotronic Conductor...';
@@ -490,7 +490,7 @@ services:
         exec /usr/local/bin/iotronic-wamp-agent --config-file /etc/iotronic/iotronic.conf"
 
   iotronic-ui:
-    image: salvospinella3-iotronic-ui
+    image: salvospina/iotronic-ui
     container_name: iotronic-ui
     restart: unless-stopped
     depends_on:
