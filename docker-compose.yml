@@ -489,6 +489,7 @@ services:
 
   iotronic-ui:
     image: lucadagati/iotronic-ui:latest
+    image: michele/iotronic-ui
     container_name: iotronic-ui
     restart: unless-stopped
     depends_on:
@@ -503,6 +504,7 @@ services:
     volumes:
       - iotronic-ui_logs:/var/log/apache2
       - ./conf_ui:/etc/openstack-dashboard
+      - ./conf_ui/iotronic_ui:/opt/build/iotronic-ui/iotronic_ui
 
   lightning-rod:
     image: lucadagati/lrod:compose
