@@ -488,8 +488,7 @@ services:
         exec /usr/local/bin/iotronic-wamp-agent --config-file /etc/iotronic/iotronic.conf"
 
   iotronic-ui:
-    image: lucadagati/iotronic-ui:latest
-    image: michele/iotronic-ui
+    image: salvospina/iotronic-ui
     container_name: iotronic-ui
     restart: unless-stopped
     depends_on:
