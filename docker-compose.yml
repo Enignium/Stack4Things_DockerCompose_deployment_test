@@ -2,38 +2,46 @@ version: "3.8"
 
 services:
   ca_service:
-    image: debian:buster
+    image: debian:bookworm-slim
     container_name: ca_service
     networks:
       - s4t
     volumes:
-      - iotronic_ssl:/etc/ssl/iotronic  # Condiviso con iotronic-wstun
+      - iotronic_ssl:/etc/ssl/iotronic
     entrypoint: ["/bin/bash", "-c"]
     command:
       - |
+        set -euo pipefail
         echo "[INFO] Installazione di OpenSSL..."
-        apt-get update && apt-get install -y openssl &&
-        
+        apt-get update
+        apt-get install -y --no-install-recommends openssl ca-certificates
+        rm -rf /var/lib/apt/lists/*
+
         echo "[INFO] Generazione della Root CA..."
-        mkdir -p /etc/ssl/iotronic &&
-        cd /etc/ssl/iotronic &&
-        
-        openssl genrsa -out iotronic_CA.key 2048 &&
+        install -d -m 755 /etc/ssl/iotronic
+        cd /etc/ssl/iotronic
+
+        openssl genrsa -out iotronic_CA.key 2048
         openssl req -x509 -new -nodes -key iotronic_CA.key -sha256 -days 18250 \
-          -subj "/C=IT/O=iotronic" -out iotronic_CA.pem &&
-        
+          -subj "/C=IT/O=iotronic" -out iotronic_CA.pem
+
         echo "[INFO] Generazione della chiave privata e del certificato per Crossbar..."
-        openssl genrsa -out crossbar.key 2048 &&
-        openssl req -new -key crossbar.key -subj "/C=IT/O=iotronic/CN=crossbar" -out crossbar.csr &&
-        openssl x509 -req -in crossbar.csr -CA iotronic_CA.pem -CAkey iotronic_CA.key -CAcreateserial -out crossbar.pem -days 18250 -sha256 &&
-        
+        openssl genrsa -out crossbar.key 2048
+        openssl req -new -key crossbar.key -subj "/C=IT/O=iotronic/CN=crossbar" -out crossbar.csr
+        openssl x509 -req -in crossbar.csr -CA iotronic_CA.pem -CAkey iotronic_CA.key -CAcreateserial -out crossbar.pem -days 18250 -sha256
+
         echo "[INFO] Impostazione permessi certificati..."
-        chmod 644 iotronic_CA.key iotronic_CA.pem crossbar.key crossbar.pem
+        chmod 600 iotronic_CA.key
+        chmod 644 crossbar.key crossbar.pem iotronic_CA.pem
         chmod 755 /etc/ssl/iotronic
-        
+        #chmod 640 iotronic_CA.key crossbar.key
+        #chmod 644 iotronic_CA.pem crossbar.pem
+        #chmod 755 /etc/ssl/iotronic
+
         echo "[INFO] Certificati generati con successo."
         tail -f /dev/null
 
+      
   crossbar:
     image: crossbario/crossbar
     container_name: crossbar
@@ -49,10 +57,18 @@ services:
     command:
       - |
         echo "[INFO] Attesa dei certificati..."
+        
+        mkdir -p /node/.crossbar/ssl
+        chmod 755 /node /node/.crossbar        
+        
         while [ ! -f /node/.crossbar/ssl/crossbar.pem ] || [ ! -f /node/.crossbar/ssl/crossbar.key ]; do
           sleep 2
         done
         echo "[INFO] Certificati trovati!"
+
+        chmod 640 /node/.crossbar/ssl/crossbar.key || true
+        chmod 644 /node/.crossbar/ssl/crossbar.pem /node/.crossbar/ssl/iotronic_CA.pem || true
+
 
         echo "[INFO] Scrittura configurazione Crossbar..."
         cat <<EOF > /node/.crossbar/config.json
@@ -142,7 +158,6 @@ services:
 
         echo "[INFO] Avvio di iotronic-wstun..."
         exec node /usr/local/lib/node_modules/@mdslab/wstun/bin/wstun.js -r -s 8080 --ssl=true --key=/var/lib/iotronic/ssl/iotronic_CA.key --cert=/var/lib/iotronic/ssl/iotronic_CA.pem
-
   iotronic-db:
     image: mariadb:focal
     container_name: iotronic-db
