@@ -176,8 +176,11 @@ class InjectFleetPluginForm(forms.SelfHandlingForm):
             except Exception as e:
                err_msg = str(e).lower()
 
+               if "does not contain any board" in err_msg:
+                   messages.error(request, _("Injection not allowed on fleet '%s': no boards are associated.") % fleet_name)
 
-               if "duplicate entry" in err_msg or "uniq_fleet_plugin" in err_msg:
+
+               elif "duplicate entry" in err_msg or "uniq_fleet_plugin" in err_msg:
                    messages.info(request, _("Plugin already injected on fleet: %s") % fleet_name)
                    counter += 1
                else:

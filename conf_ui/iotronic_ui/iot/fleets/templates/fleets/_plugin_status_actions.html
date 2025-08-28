@@ -1,0 +1,28 @@
+{# iot/fleets/_plugin_status_actions.html #}
+{% load i18n %}
+{% with k=table.request.resolver_match.kwargs %}
+<div class="btn-group">
+  <a class="btn btn-default btn-sm dropdown-toggle" data-toggle="dropdown" href="#">
+    {% trans "Actions" %} <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu dropdown-menu-right">
+    <li>
+      <a href="{% url 'horizon:iot:fleets:plugin_start_on_board' k.fleet_id k.plugin_id datum.board_uuid %}">
+        {% trans "Start" %}
+      </a>
+    </li>
+    <li>
+      <a href="{% url 'horizon:iot:fleets:plugin_stop_on_board' k.fleet_id k.plugin_id datum.board_uuid %}">
+        {% trans "Stop" %}
+      </a>
+    </li>
+    <li class="divider"></li>
+    <li>
+      <a href="{% url 'horizon:iot:fleets:plugin_remove_from_board' k.fleet_id k.plugin_id datum.board_uuid %}">
+        {% trans "Remove" %}
+      </a>
+    </li>
+  </ul>
+</div>
+{% endwith %}
+

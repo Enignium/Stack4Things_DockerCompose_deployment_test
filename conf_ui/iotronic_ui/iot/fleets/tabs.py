@@ -53,6 +53,11 @@ class OverviewTab(tabs.Tab):
                 LOG.warning("Unable to load plugins for fleet %s: %s", fleet.uuid, e)
                 plugins = []
 
+        print("[OVERVIEW] fleet=%s boards=%d plugins=%d" % (getattr(fleet, 'uuid', None), len(boards), len(plugins)))
+        if plugins: print("[OVERVIEW] first plugin sample=%s" % (plugins[0],))
+
+
+
         return {
             "fleet": fleet,
             "boards": boards,

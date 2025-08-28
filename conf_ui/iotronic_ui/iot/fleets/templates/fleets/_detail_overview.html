@@ -46,16 +46,20 @@
         </tr>
       </thead>
       <tbody>
-        {% for plugin in plugins %}
-        <tr>
-          <td>{{ plugin.name }}</td>
-          <td>{{ plugin.uuid }}</td>
-        </tr>
-        {% endfor %}
-      </tbody>
-    </table>
-  {% else %}
-    <p>{% trans "No plugins injected on this fleet." %}</p>
-  {% endif %}
+     {% for plugin in plugins %}
+       <tr>
+         <td>
+           <a href="{% url 'horizon:iot:fleets:plugin_status_on_fleet' fleet.uuid plugin.uuid %}">
+             {{ plugin.name|default:plugin.uuid }}
+           </a>
+         </td>
+         <td>{{ plugin.uuid }}</td>
+       </tr>
+     {% endfor %}
+     </tbody>
+   </table>
+ {% else %}
+   <p>{% trans "No plugins injected on this fleet." %}</p>
+ {% endif %}
 </div>
 
